@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Immigration Command Center</title>
+<style>
+:root{--bg:#07111f;--card:#0d1b2a;--muted:#93a4b8;--text:#eef6ff;--accent:#44d19d;--accent2:#4ea1ff;--border:#1d3550}
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(180deg,#07111f,#0a1627);color:var(--text)}
+.wrap{max-width:1150px;margin:auto;padding:28px 18px 60px}.hero,.grid{display:grid;grid-template-columns:1.5fr .7fr;gap:18px}
+.grid{grid-template-columns:2fr 1fr;margin-top:18px}.panel{background:rgba(13,27,42,.94);border:1px solid var(--border);border-radius:18px;padding:22px}
+h1{font-size:clamp(30px,5vw,54px);margin:0 0 12px}.sub{color:var(--muted);font-size:18px;line-height:1.8}
+.switch{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{cursor:pointer;border:1px solid var(--border);background:#10243a;color:#fff;padding:11px 16px;border-radius:12px;font-weight:700}.btn.active{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#04101d}
+.progress{height:12px;background:#0a1624;border-radius:999px;overflow:hidden;margin:12px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent2),var(--accent))}
+.roadmap{display:grid;gap:12px}details{background:#0b1928;border:1px solid var(--border);border-radius:15px;padding:4px 16px}
+summary{cursor:pointer;list-style:none;padding:16px 0;font-weight:800;display:flex;gap:12px;align-items:center;justify-content:space-between}
+summary::-webkit-details-marker{display:none}.stephead{display:flex;gap:12px;align-items:center}.num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#17324f;color:#8bc4ff;font-weight:900}
+.tag{font-size:12px;border:1px solid #34516d;padding:5px 8px;border-radius:999px;color:#b8cae0}.body{color:#c7d4e4;line-height:1.85;padding:0 0 18px}.body a{color:#70b8ff}
+.status{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.status button{font-size:12px}.task{padding:12px;border-radius:12px;background:#0b1928;border:1px solid var(--border);margin:10px 0}.small{color:var(--muted);font-size:13px}.score{font-size:40px;font-weight:900}
+@media(max-width:800px){.hero,.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="hero">
+<div class="panel"><div class="small">PERSONAL IMMIGRATION COMMAND CENTER</div><h1>من اليوم إلى أول راتب 🇨🇦 🇦🇺</h1>
+<div class="sub">خارطة طريق تفاعلية للهجرة إلى كندا أو أستراليا. اضغط على أي خطوة لعرض المطلوب والمستندات والمخاطر والمصدر الرسمي. تقدمك يُحفظ تلقائيًا على جهازك.</div>
+<div class="switch"><button class="btn active" data-country="canada">🇨🇦 كندا</button><button class="btn" data-country="australia">🇦🇺 أستراليا</button></div></div>
+<div class="panel"><div class="small">Overall Journey</div><div class="score"><span id="score">0</span>%</div><div class="progress"><div class="bar" id="bar"></div></div><div class="small" id="nextAction"></div></div>
+</section>
+<section class="grid">
+<div class="panel"><h2 id="title"></h2><div class="roadmap" id="roadmap"></div></div>
+<aside class="panel"><h3>Next Best Action</h3><div class="task" id="nba"></div><h3>قاعدة مهمة</h3><div class="small">استخدم الموقع كمدير رحلة وتنظيم للخطوات، وراجع المصدر الحكومي الرسمي قبل أي قرار أو دفع رسوم.</div></aside>
+</section>
+</div>
+<script>
+const DATA={
+canada:[
+["تقييم الأهلية وتحديد المسار","قارن Express Entry وPNP ومسارات صاحب العمل. اجمع العمر والمؤهل والخبرة واللغة والحالة العائلية والميزانية.","https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada.html"],
+["اختبار اللغة","اختر اختبار لغة معتمد لمسارك وحدد هدفًا يتجاوز الحد الأدنى لأن اللغة تؤثر بقوة على الترتيب.","https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/documents/language-test.html"],
+["تقييم الشهادة ECA","للمؤهلات خارج كندا، جهّز تقييمًا تعليميًا من جهة معتمدة إذا كان المسار يتطلبه.","https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/documents/education-assessed.html"],
+["إنشاء Express Entry Profile","أدخل البيانات بدقة واحتفظ بالمستندات الداعمة وتابع CRS وجولات الدعوات.","https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry.html"],
+["استراتيجية PNP","راجع المقاطعات المناسبة لمهنتك وخبرتك وراقب المتطلبات والمسارات المفتوحة.","https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/provincial-nominees.html"],
+["Job Search & Networking","جهّز CV كندي وLinkedIn وقائمة شركات ونظام متابعة أسبوعي ورسائل إحالة وتوظيف.","https://www.jobbank.gc.ca/"],
+["Invitation & PR Application","بعد الدعوة، راجع المستندات والفحوصات والشرطة وإثبات الأموال حسب حالتك.","https://www.canada.ca/en/immigration-refugees-citizenship/services/application.html"],
+["Pre-Landing","اختر المدينة، ميزانية 90 يوم، السكن المؤقت، البنك، الهاتف، النقل والوثائق الأصلية.","https://www.canada.ca/en/immigration-refugees-citizenship/services/new-immigrants.html"],
+["الوصول والبحث المكثف عن العمل","نفّذ خطة 30/60/90 يوم ووسّع الشبكة المهنية وتتبع كل طلب ومقابلة.","https://www.canada.ca/en/services/jobs/opportunities.html"],
+["العرض الوظيفي وأول راتب","قارن الراتب والمزايا والمدينة والضرائب، أكمل onboarding ثم سجّل أول راتب كآخر milestone.",null]
+],
+australia:[
+["تقييم الأهلية وتحديد المهنة","حدد occupation والجهة المقيمة ثم قارن 189 و190 و491 ومسارات صاحب العمل.","https://immi.homeaffairs.gov.au/visas/working-in-australia"],
+["اختبار اللغة","حدد اختبار اللغة المناسب وهدف النقاط؛ النتيجة الأعلى قد تغير قوة ملفك.","https://immi.homeaffairs.gov.au/help-support/meeting-our-requirements/english-language"],
+["Skills Assessment","قدّم تقييم المهارات للجهة المختصة. للمهندسين راجع Engineers Australia والمسار المناسب.","https://www.engineersaustralia.org.au/migrants/migration-skills-assessment"],
+["حساب النقاط","احسب العمر واللغة والخبرة والمؤهل والشريك والترشيح واختبر سيناريوهات 189/190/491.","https://immi.homeaffairs.gov.au/help-support/tools/points-calculator"],
+["EOI عبر SkillSelect","أنشئ Expression of Interest بدقة وحدّثه عند تحسن اللغة أو الخبرة أو الترشيح.","https://immi.homeaffairs.gov.au/visas/working-in-australia/skillselect"],
+["State Nomination Strategy","تابع شروط الولايات للـ190 والـ491 واختر الولايات المتوافقة مع مهنتك وخبرتك.","https://immi.homeaffairs.gov.au/visas/working-in-australia/skillselect"],
+["Job Search & Sponsorship","استهدف أصحاب العمل وrecruiters وSEEK وLinkedIn وفرص employer sponsorship بالتوازي.","https://www.seek.com.au/"],
+["Invitation & Visa Application","بعد الدعوة اجمع الهوية والخبرة والفحوصات والشرطة وأي متطلبات إضافية ضمن المهلة.","https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing"],
+["Pre-Landing","اختر الولاية والمدينة، الميزانية، السكن المؤقت، TFN والبنك والهاتف وخطة أول 90 يوم.","https://immi.homeaffairs.gov.au/settling-in-australia"],
+["العرض الوظيفي وأول راتب","قارن total package وsuperannuation وتكلفة المدينة ثم سجّل أول راتب كآخر milestone.",null]
+]};
+let country=localStorage.getItem("icc_country")||"canada";
+const key=()=> "icc_"+country;
+let state=JSON.parse(localStorage.getItem(key())||"{}");
+function label(s){return {not:"لم تبدأ",doing:"جاري",wait:"منتظر",done:"مكتمل ✓"}[s]||"لم تبدأ"}
+function setStatus(i,s){state[i]=s;localStorage.setItem(key(),JSON.stringify(state));render()}
+function updateProgress(){const arr=DATA[country];const done=arr.filter((_,i)=>state[i]==="done").length;const pct=Math.round(done/arr.length*100);document.getElementById("score").textContent=pct;document.getElementById("bar").style.width=pct+"%";const next=arr.findIndex((_,i)=>state[i]!=="done");const txt=next<0?"🎯 الرحلة مكتملة — سجّل تاريخ أول راتب.":"الخطوة التالية: "+arr[next][0];document.getElementById("nextAction").textContent=txt;document.getElementById("nba").textContent=txt}
+function render(){document.querySelectorAll("[data-country]").forEach(b=>b.classList.toggle("active",b.dataset.country===country));document.getElementById("title").textContent=country==="canada"?"خارطة طريق كندا":"خارطة طريق أستراليا";const root=document.getElementById("roadmap");root.innerHTML="";DATA[country].forEach((s,i)=>{const d=document.createElement("details");const st=state[i]||"not";d.innerHTML=`<summary><div class="stephead"><div class="num">${i+1}</div><div>${s[0]}</div></div><span class="tag">${label(st)}</span></summary><div class="body">${s[1]}${s[2]?`<br><a target="_blank" rel="noopener" href="${s[2]}">فتح المصدر الرسمي ↗</a>`:""}<div class="status"><button class="btn" onclick="setStatus(${i},'not')">لم تبدأ</button><button class="btn" onclick="setStatus(${i},'doing')">جاري</button><button class="btn" onclick="setStatus(${i},'wait')">منتظر</button><button class="btn" onclick="setStatus(${i},'done')">مكتمل ✓</button></div></div>`;root.appendChild(d)});updateProgress()}
+document.querySelectorAll("[data-country]").forEach(b=>b.onclick=()=>{country=b.dataset.country;localStorage.setItem("icc_country",country);state=JSON.parse(localStorage.getItem(key())||"{}");render()});render();
+</script>
+</body></html>
