@@ -202,7 +202,11 @@ function analyseEligibility(){
   if(baseMissing.length===0){state[0]="done";localStorage.setItem(key(),JSON.stringify(state))}
  }
  localStorage.setItem("icc_profile_"+country,JSON.stringify(p));
- eligibilityResult.innerHTML=html; eligibilityResult.classList.add("show"); render();
+ const resultEl=document.getElementById("eligibilityResult");
+ resultEl.innerHTML=html;
+ resultEl.classList.add("show");
+ updateProgress();
+ resultEl.scrollIntoView({behavior:"smooth",block:"start"});
 }
 const key=()=> "icc_"+country;let state=JSON.parse(localStorage.getItem(key())||"{}");
 const labels={not:"لم تبدأ",doing:"جاري",wait:"منتظر",done:"مكتمل ✓"};
