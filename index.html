@@ -25,7 +25,9 @@ summary{cursor:pointer;list-style:none;padding:16px 0;font-weight:800;display:fl
 .kpi{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}.kpi div{padding:12px;border:1px solid var(--border);border-radius:12px}.kpi strong{display:block;color:var(--sar-blue);font-size:19px}
 .update{display:inline-flex;gap:7px;align-items:center;margin-top:12px;padding:7px 10px;background:#f3f5f6;border-radius:999px;font-size:12px;color:#69767c}
 .note{margin-top:18px;padding:14px;border-radius:12px;background:#fff9e9;border:1px solid #f3ddb0;color:#705b2b;line-height:1.7}
-@media(max-width:800px){.hero,.grid{grid-template-columns:1fr}.sar-header{align-items:flex-start;flex-direction:column}.sar-nav{display:none}.kpi{grid-template-columns:1fr}}
+.eligibility{margin:18px 0;background:#fff;border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:0 12px 30px rgba(61,57,53,.07)}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field label{display:block;font-size:12px;font-weight:800;color:var(--sar-gray);margin-bottom:6px}.field input,.field select{width:100%;padding:11px 12px;border:1px solid #cbd9dc;border-radius:10px;background:#fff;color:var(--sar-black);font:inherit}.field.full{grid-column:1/-1}.analyse{margin-top:16px;background:var(--sar-blue);color:#fff;border:0;padding:12px 18px;border-radius:10px;font-weight:900;cursor:pointer}.result{display:none;margin-top:18px}.result.show{display:block}.route{border:1px solid var(--border);border-right:6px solid var(--sar-blue);border-radius:12px;padding:14px;margin:10px 0;background:#fbfdfd}.route.best{background:#eef8f9}.route h4{margin:0 0 5px}.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:900;margin-right:6px}.strong{background:#dff5ea;color:#167044}.medium{background:#fff1c8;color:#7f6011}.weak{background:#ffe4e4;color:#9f2828}.missing{margin-top:8px;color:#6d777d;font-size:13px;line-height:1.7}.result-title{font-size:20px;font-weight:900;color:var(--sar-blue);margin-bottom:8px}.scorebox{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}.scorebox div{border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center}.scorebox strong{display:block;color:var(--sar-blue);font-size:24px}
+@media(max-width:800px){.hero,.grid{grid-template-columns:1fr}.sar-header{align-items:flex-start;flex-direction:column}.sar-nav{display:none}.kpi,.formgrid,.scorebox{grid-template-columns:1fr}}
 </style></head>
 <body>
 <div class="sar-top"></div>
@@ -34,6 +36,12 @@ summary{cursor:pointer;list-style:none;padding:16px 0;font-weight:800;display:fl
 <section class="hero">
 <div class="panel"><div class="small">PERSONAL IMMIGRATION COMMAND CENTER</div><h1>من اليوم إلى أول راتب 🇨🇦 🇦🇺</h1><div class="sub">كل المعلومات الأساسية داخل الموقع نفسه. افتح أي خطوة لتجد ماذا تفعل، ماذا تجهز، متى تعتبرها مكتملة، وما الذي يمنعك من الانتقال للخطوة التالية — بدون الحاجة لفتح مواقع خارجية.</div><div class="switch"><button class="btn active" data-country="canada">🇨🇦 كندا</button><button class="btn" data-country="australia">🇦🇺 أستراليا</button></div><div class="update">● آخر تحديث للمعلومات التنظيمية: 6 أكتوبر 2026</div></div>
 <div class="panel"><div class="small">Overall Journey</div><div class="score"><span id="score">0</span>%</div><div class="progress"><div class="bar" id="bar"></div></div><div class="small" id="nextAction"></div><div class="kpi"><div><span class="small">المراحل</span><strong id="totalSteps">10</strong></div><div><span class="small">المكتمل</span><strong id="doneSteps">0</strong></div></div></div>
+</section>
+<section class="eligibility">
+<h2>تقييم الأهلية الذكي</h2>
+<div class="sub">اكتب بياناتك، والموقع سيحدد لك المسار الأقوى مبدئيًا ويخبرك بما ينقصك قبل أي تقديم.</div>
+<div id="eligibilityForm"></div>
+<div id="eligibilityResult" class="result"></div>
 </section>
 <section class="grid"><div class="panel"><h2 id="title"></h2><div class="roadmap" id="roadmap"></div></div>
 <aside class="panel"><h3>Next Best Action</h3><div class="task" id="nba"></div><h3>كيف تستخدم الموقع؟</h3><div class="small">افتح الخطوة، نفّذ الـChecklist، جهّز المستندات، راجع Gate الانتقال، ثم غيّر الحالة إلى مكتمل. المعلومات القانونية أو الرسوم المتغيرة تحتاج مراجعة قبل الدفع أو التقديم النهائي.</div><div class="note"><strong>مهم:</strong> الموقع ينظم رحلتك ويجمع المعلومات الأساسية، لكنه لا يحل محل قرار رسمي أو مستشار هجرة مرخص عند الحاجة.</div></aside>
@@ -117,12 +125,91 @@ australia:[
 ["قارن",["Base salary.","Superannuation.","Bonus.","Leave.","Relocation.","Hybrid/remote.","تكلفة المدينة.","Visa/sponsorship conditions إن وجدت."]],
 ["النهاية",["توقيع العقد.","Start Date.","Onboarding.","Payroll details.","أول راتب = 100% من الرحلة."]]],src:"Employment offer review checklist"}
 ]};
-let country=localStorage.getItem("icc_country")||"canada";const key=()=> "icc_"+country;let state=JSON.parse(localStorage.getItem(key())||"{}");
+let country=localStorage.getItem("icc_country")||"canada";
+function eligibilityForm(){
+ const saved=JSON.parse(localStorage.getItem("icc_profile_"+country)||"{}");
+ const v=(k,d="")=>saved[k]??d;
+ const common=`
+ <div class="formgrid">
+  <div class="field"><label>العمر</label><input id="e_age" type="number" min="18" max="70" value="${v("age")}"></div>
+  <div class="field"><label>الحالة العائلية</label><select id="e_marital"><option value="single" ${v("marital")==="single"?"selected":""}>أعزب</option><option value="married" ${v("marital")==="married"?"selected":""}>متزوج</option></select></div>
+  <div class="field"><label>أعلى مؤهل</label><select id="e_edu"><option value="high" ${v("edu")==="high"?"selected":""}>ثانوية</option><option value="diploma" ${v("edu")==="diploma"?"selected":""}>دبلوم</option><option value="bachelor" ${v("edu")==="bachelor"?"selected":""}>بكالوريوس</option><option value="master" ${v("edu")==="master"?"selected":""}>ماجستير</option><option value="phd" ${v("edu")==="phd"?"selected":""}>دكتوراه</option></select></div>
+  <div class="field"><label>سنوات الخبرة الماهرة خارج البلد</label><input id="e_exp" type="number" min="0" max="40" step="0.5" value="${v("exp")}"></div>
+  <div class="field full"><label>المهنة / المسمى المستهدف</label><input id="e_job" placeholder="مثال: Project Controls Manager / Civil Engineer" value="${v("job")}"></div>`;
+ if(country==="canada") return common+`
+  <div class="field"><label>هل لديك ECA للمؤهل؟</label><select id="e_eca"><option value="no">لا</option><option value="yes" ${v("eca")==="yes"?"selected":""}>نعم</option></select></div>
+  <div class="field"><label>أقل CLB لديك في المهارات الأربع</label><select id="e_clb"><option value="0">لا توجد نتيجة رسمية</option><option value="5" ${v("clb")==="5"?"selected":""}>CLB 5–6</option><option value="7" ${v("clb")==="7"?"selected":""}>CLB 7</option><option value="8" ${v("clb")==="8"?"selected":""}>CLB 8</option><option value="9" ${v("clb")==="9"?"selected":""}>CLB 9+</option></select></div>
+  <div class="field"><label>خبرة عمل كندية مؤهلة</label><select id="e_canexp"><option value="no">لا</option><option value="yes" ${v("canexp")==="yes"?"selected":""}>نعم</option></select></div>
+  <div class="field"><label>عرض عمل كندي صالح</label><select id="e_offer"><option value="no">لا</option><option value="yes" ${v("offer")==="yes"?"selected":""}>نعم</option></select></div>
+  <div class="field"><label>هل لديك ترشيح مقاطعة PNP؟</label><select id="e_nom"><option value="no">لا</option><option value="yes" ${v("nom")==="yes"?"selected":""}>نعم</option></select></div>
+  <div class="field"><label>هل لديك فرنسية رسمية؟</label><select id="e_french"><option value="no">لا</option><option value="yes" ${v("french")==="yes"?"selected":""}>نعم</option></select></div>
+ </div><button class="analyse" onclick="analyseEligibility()">حلّل أهليتي لكندا</button>`;
+ return common+`
+  <div class="field"><label>مستوى الإنجليزية</label><select id="e_eng"><option value="unknown">لا توجد نتيجة رسمية</option><option value="competent" ${v("eng")==="competent"?"selected":""}>Competent</option><option value="proficient" ${v("eng")==="proficient"?"selected":""}>Proficient</option><option value="superior" ${v("eng")==="superior"?"selected":""}>Superior</option></select></div>
+  <div class="field"><label>Skills Assessment إيجابي؟</label><select id="e_skill"><option value="no">لا</option><option value="yes" ${v("skill")==="yes"?"selected":""}>نعم</option></select></div>
+  <div class="field"><label>ترشيح ولاية 190؟</label><select id="e_190"><option value="no">لا</option><option value="yes" ${v("n190")==="yes"?"selected":""}>نعم</option></select></div>
+  <div class="field"><label>ترشيح/أهلية إقليمية 491؟</label><select id="e_491"><option value="no">لا</option><option value="yes" ${v("n491")==="yes"?"selected":""}>نعم</option></select></div>
+  <div class="field"><label>حالة الشريك</label><select id="e_partner"><option value="single" ${v("partner")==="single"?"selected":""}>أعزب / الشريك مواطن أو PR أسترالي</option><option value="eng" ${v("partner")==="eng"?"selected":""}>شريك معه Competent English</option><option value="skilled" ${v("partner")==="skilled"?"selected":""}>شريك أقل من 45 + English + Skills Assessment مناسب</option><option value="none" ${v("partner")==="none"?"selected":""}>لا ينطبق شيء مما سبق</option></select></div>
+  <div class="field"><label>خبرة عمل ماهرة داخل أستراليا</label><select id="e_ausexp"><option value="0">لا</option><option value="1" ${v("ausexp")==="1"?"selected":""}>1–2 سنة</option><option value="3" ${v("ausexp")==="3"?"selected":""}>3–4 سنوات</option><option value="5" ${v("ausexp")==="5"?"selected":""}>5–7 سنوات</option><option value="8" ${v("ausexp")==="8"?"selected":""}>8+ سنوات</option></select></div>
+ </div><button class="analyse" onclick="analyseEligibility()">حلّل أهليتي لأستراليا</button>`;
+}
+function field(id){return document.getElementById(id)?.value||""}
+function routeCard(name,strength,why,missing,best=false){
+ const cls=strength==="قوي"?"strong":strength==="متوسط"?"medium":"weak";
+ return `<div class="route ${best?"best":""}"><h4>${name} <span class="badge ${cls}">${strength}</span>${best?'<span class="badge strong">المسار المقترح</span>':""}</h4><div>${why}</div>${missing?.length?`<div class="missing"><strong>ينقصك:</strong> ${missing.join(" • ")}</div>`:""}</div>`;
+}
+function analyseEligibility(){
+ const age=+field("e_age"),exp=+field("e_exp"),edu=field("e_edu"),job=field("e_job"),marital=field("e_marital");
+ if(!age||!job){alert("اكتب العمر والمهنة أولاً.");return}
+ let p={age,exp,edu,job,marital},html="";
+ if(country==="canada"){
+  Object.assign(p,{eca:field("e_eca"),clb:field("e_clb"),canexp:field("e_canexp"),offer:field("e_offer"),nom:field("e_nom"),french:field("e_french")});
+  const clb=+p.clb,fswMissing=[]; if(exp<1)fswMissing.push("سنة خبرة ماهرة مستمرة على الأقل"); if(clb<7)fswMissing.push("CLB 7 على الأقل في المهارات الأربع"); if(p.eca!=="yes"&&edu!=="high")fswMissing.push("ECA للمؤهل الأجنبي");
+  let fsw=fswMissing.length===0?"متوسط":"ضعيف";
+  if(fswMissing.length===0&&clb>=9&&exp>=3)fsw="قوي";
+  const cec=p.canexp==="yes"?(clb>=7?"قوي":"متوسط"):"ضعيف";
+  const pnp=p.nom==="yes"?"قوي":(clb>=7&&exp>=1?"متوسط":"ضعيف");
+  const jobroute=p.offer==="yes"?"قوي":"متوسط";
+  let best="FSW / Express Entry"; if(p.nom==="yes")best="PNP المرتبط أو المناسب لحالتك"; else if(p.canexp==="yes")best="Canadian Experience Class"; else if(p.offer==="yes"&&fsw==="ضعيف")best="مسار صاحب العمل + تحسين Express Entry";
+  html=`<div class="result-title">نتيجة التقييم الأولي — كندا</div>
+  <div class="scorebox"><div><span class="small">الخبرة</span><strong>${exp} سنة</strong></div><div><span class="small">اللغة</span><strong>${clb?("CLB "+clb):"غير متاحة"}</strong></div><div><span class="small">المسار الأقوى</span><strong style="font-size:15px">${best}</strong></div></div>
+  ${routeCard("Federal Skilled Worker / Express Entry",fsw,fswMissing.length?"لا تزال هناك متطلبات أولية ناقصة.":"تبدو مستوفيًا للحدود الأولية الأساسية، لكن يلزم حساب 67/100 ثم CRS الفعلي.",fswMissing,best.includes("FSW"))}
+  ${routeCard("Canadian Experience Class",cec,p.canexp==="yes"?"وجود خبرة كندية قد يجعل CEC خيارًا مهمًا حسب نوع الخبرة واللغة.":"لا تظهر حاليًا خبرة كندية مؤهلة.",p.canexp==="yes"?[]:["خبرة عمل كندية مؤهلة"],best.includes("Experience"))}
+  ${routeCard("Provincial Nominee Program",pnp,p.nom==="yes"?"لديك ترشيح بالفعل، لذلك هذا المسار أولوية.":"يستحق البحث بالتوازي حسب المهنة والمقاطعة.",p.nom==="yes"?[]:["تحديد المقاطعات المطابقة لمهنتك"],best.includes("PNP"))}
+  ${routeCard("Employer / Job Offer Strategy",jobroute,p.offer==="yes"?"عرض العمل يقوّي استراتيجية التوظيف وقد يفتح مسارات إضافية حسب تفاصيل العرض.":"استخدم البحث الوظيفي كمسار موازٍ للهجرة.",p.offer==="yes"?[]:["عرض عمل مناسب"],best.includes("صاحب العمل"))}
+  <div class="source"><strong>المصدر المرجعي:</strong> IRCC — Federal Skilled Worker, Express Entry, PNP. هذا تقييم أولي وليس قرار أهلية رسميًا.</div>`;
+  if(fswMissing.length===0){state[0]="done";localStorage.setItem(key(),JSON.stringify(state))}
+ } else {
+  Object.assign(p,{eng:field("e_eng"),skill:field("e_skill"),n190:field("e_190"),n491:field("e_491"),partner:field("e_partner"),ausexp:field("e_ausexp")});
+  let points=0;
+  if(age>=18&&age<25)points+=25; else if(age<33)points+=30; else if(age<40)points+=25; else if(age<45)points+=15;
+  if(p.eng==="proficient")points+=10; if(p.eng==="superior")points+=20;
+  if(exp>=8)points+=15; else if(exp>=5)points+=10; else if(exp>=3)points+=5;
+  const ax=+p.ausexp; if(ax>=8)points+=20; else if(ax>=5)points+=15; else if(ax>=3)points+=10; else if(ax>=1)points+=5;
+  if(["bachelor","master","phd"].includes(edu))points+=15; else if(edu==="diploma")points+=10;
+  if(p.partner==="single"||p.partner==="skilled")points+=10; else if(p.partner==="eng")points+=5;
+  const baseMissing=[]; if(age>=45)baseMissing.push("العمر يجب أن يكون أقل من 45 عند الدعوة"); if(p.eng==="unknown")baseMissing.push("Competent English على الأقل"); if(p.skill!=="yes")baseMissing.push("Skills Assessment إيجابي"); if(points<65)baseMissing.push("رفع مجموع النقاط إلى 65 على الأقل");
+  const s189=baseMissing.length===0?(points>=80?"قوي":"متوسط"):"ضعيف";
+  const pts190=points+(p.n190==="yes"?5:0),s190=(baseMissing.filter(x=>!x.includes("65")).length===0&&pts190>=65)?"قوي":"متوسط";
+  const pts491=points+(p.n491==="yes"?15:0),s491=(baseMissing.filter(x=>!x.includes("65")).length===0&&pts491>=65)?"قوي":"متوسط";
+  let best=s189==="قوي"?"189 Skilled Independent":(p.n190==="yes"?"190 Skilled Nominated":(p.n491==="yes"?"491 Skilled Work Regional":"190/491 State Nomination Strategy"));
+  html=`<div class="result-title">نتيجة التقييم الأولي — أستراليا</div>
+  <div class="scorebox"><div><span class="small">النقاط التقديرية الأساسية</span><strong>${points}</strong></div><div><span class="small">مع 190 إن كان الترشيح قائمًا</span><strong>${pts190}</strong></div><div><span class="small">المسار الأقوى</span><strong style="font-size:15px">${best}</strong></div></div>
+  ${routeCard("Subclass 189 — Skilled Independent",s189,"مسار مستقل بلا ترشيح ولاية، لكنه تنافسي ويحتاج دعوة.",baseMissing,best.startsWith("189"))}
+  ${routeCard("Subclass 190 — Skilled Nominated",s190,"ترشيح الولاية يضيف 5 نقاط ويخضع لشروط الولاية.",p.n190==="yes"?[]:["ترشيح ولاية فعلي + مطابقة شروط الولاية"],best.startsWith("190"))}
+  ${routeCard("Subclass 491 — Skilled Work Regional",s491,"المسار الإقليمي قد يكون عمليًا عندما تكون 189 أقل تنافسية.",p.n491==="yes"?[]:["ترشيح/أهلية إقليمية مناسبة"],best.startsWith("491"))}
+  <div class="source"><strong>المصدر المرجعي:</strong> Department of Home Affairs — SkillSelect & Points Test. النقاط هنا تقديرية ولا تشمل كل البنود الممكنة مثل الدراسة الأسترالية أو NAATI أو Professional Year.</div>`;
+  if(baseMissing.length===0){state[0]="done";localStorage.setItem(key(),JSON.stringify(state))}
+ }
+ localStorage.setItem("icc_profile_"+country,JSON.stringify(p));
+ eligibilityResult.innerHTML=html; eligibilityResult.classList.add("show"); render();
+}
+const key=()=> "icc_"+country;let state=JSON.parse(localStorage.getItem(key())||"{}");
 const labels={not:"لم تبدأ",doing:"جاري",wait:"منتظر",done:"مكتمل ✓"};
 function esc(x){return String(x).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
 function setStatus(i,s){state[i]=s;localStorage.setItem(key(),JSON.stringify(state));render()}
 function renderSections(ss){return ss.map(s=>`<div class="section"><h4>${esc(s[0])}</h4><ul>${s[1].map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`).join("")}
 function updateProgress(){const arr=DATA[country],done=arr.filter((_,i)=>state[i]==="done").length,pct=Math.round(done/arr.length*100);score.textContent=pct;bar.style.width=pct+"%";totalSteps.textContent=arr.length;doneSteps.textContent=done;const next=arr.findIndex((_,i)=>state[i]!=="done");const txt=next<0?"🎯 الرحلة مكتملة — سجّل تاريخ أول راتب.":"الخطوة التالية: "+arr[next].t;nextAction.textContent=txt;nba.textContent=txt}
-function render(){document.querySelectorAll("[data-country]").forEach(b=>b.classList.toggle("active",b.dataset.country===country));title.textContent=country==="canada"?"خارطة طريق كندا — كل التفاصيل داخل الموقع":"خارطة طريق أستراليا — كل التفاصيل داخل الموقع";roadmap.innerHTML="";DATA[country].forEach((s,i)=>{const d=document.createElement("details");d.className="step";const st=state[i]||"not";d.innerHTML=`<summary><div class="stephead"><div class="num">${i+1}</div><div>${esc(s.t)}</div></div><span class="tag">${labels[st]}</span></summary><div class="body"><p>${esc(s.intro)}</p>${renderSections(s.sections)}<div class="source"><strong>المصدر المرجعي:</strong> ${esc(s.src)} — المعلومات الأساسية منقولة ومختصرة داخل الموقع، ولا تحتاج لفتح الرابط أثناء الاستخدام.</div><div class="status"><button class="btn" onclick="setStatus(${i},'not')">لم تبدأ</button><button class="btn" onclick="setStatus(${i},'doing')">جاري</button><button class="btn" onclick="setStatus(${i},'wait')">منتظر</button><button class="btn" onclick="setStatus(${i},'done')">مكتمل ✓</button></div></div>`;roadmap.appendChild(d)});updateProgress()}
+function render(){document.getElementById("eligibilityForm").innerHTML=eligibilityForm();document.getElementById("eligibilityResult").classList.remove("show");document.querySelectorAll("[data-country]").forEach(b=>b.classList.toggle("active",b.dataset.country===country));title.textContent=country==="canada"?"خارطة طريق كندا — كل التفاصيل داخل الموقع":"خارطة طريق أستراليا — كل التفاصيل داخل الموقع";roadmap.innerHTML="";DATA[country].forEach((s,i)=>{const d=document.createElement("details");d.className="step";const st=state[i]||"not";d.innerHTML=`<summary><div class="stephead"><div class="num">${i+1}</div><div>${esc(s.t)}</div></div><span class="tag">${labels[st]}</span></summary><div class="body"><p>${esc(s.intro)}</p>${renderSections(s.sections)}<div class="source"><strong>المصدر المرجعي:</strong> ${esc(s.src)} — المعلومات الأساسية منقولة ومختصرة داخل الموقع، ولا تحتاج لفتح الرابط أثناء الاستخدام.</div><div class="status"><button class="btn" onclick="setStatus(${i},'not')">لم تبدأ</button><button class="btn" onclick="setStatus(${i},'doing')">جاري</button><button class="btn" onclick="setStatus(${i},'wait')">منتظر</button><button class="btn" onclick="setStatus(${i},'done')">مكتمل ✓</button></div></div>`;roadmap.appendChild(d)});updateProgress()}
 document.querySelectorAll("[data-country]").forEach(b=>b.onclick=()=>{country=b.dataset.country;localStorage.setItem("icc_country",country);state=JSON.parse(localStorage.getItem(key())||"{}");render()});render();
 </script></body></html>
