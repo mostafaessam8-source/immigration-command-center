@@ -4,25 +4,30 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Immigration Command Center</title>
 <style>
-:root{--bg:#07111f;--card:#0d1b2a;--muted:#93a4b8;--text:#eef6ff;--accent:#44d19d;--accent2:#4ea1ff;--border:#1d3550}
-*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(180deg,#07111f,#0a1627);color:var(--text)}
-.wrap{max-width:1150px;margin:auto;padding:28px 18px 60px}.hero,.grid{display:grid;grid-template-columns:1.5fr .7fr;gap:18px}
-.grid{grid-template-columns:2fr 1fr;margin-top:18px}.panel{background:rgba(13,27,42,.94);border:1px solid var(--border);border-radius:18px;padding:22px}
+:root{--sar-blue:#00778B;--sar-black:#3D3935;--sar-gray:#768692;--sar-cyan:#59CBE8;--sar-sky:#71B2C9;--sar-red:#CB2C30;--sar-gold:#F1B434;--sar-light:#C8C9C7;--bg:#f4f7f8;--card:#ffffff;--muted:#768692;--text:#3D3935;--accent:#00778B;--accent2:#59CBE8;--border:#d9e2e5}
+*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",Tahoma,Arial,sans-serif;background:linear-gradient(180deg,#ffffff 0,#f3f7f8 100%);color:var(--text)}
+.sar-top{height:8px;background:linear-gradient(90deg,var(--sar-blue) 0 70%,var(--sar-cyan) 70% 86%,var(--sar-gold) 86% 93%,var(--sar-red) 93% 100%)}.sar-header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 22px;background:#fff;border-bottom:1px solid var(--border)}.sar-brand{display:flex;align-items:center;gap:12px}.sar-mark{width:58px;height:58px;border-radius:14px;background:var(--sar-blue);display:grid;place-items:center;color:#fff;font-size:24px;font-weight:900;letter-spacing:1px}.sar-brand strong{font-size:18px}.sar-brand span{display:block;color:var(--sar-gray);font-size:12px;margin-top:3px}.sar-nav{display:flex;gap:8px;flex-wrap:wrap}.sar-pill{padding:8px 12px;border-radius:999px;background:#eef6f7;color:var(--sar-blue);font-size:12px;font-weight:800}.wrap{max-width:1180px;margin:auto;padding:26px 18px 60px}.hero,.grid{display:grid;grid-template-columns:1.5fr .7fr;gap:18px}
+.grid{grid-template-columns:2fr 1fr;margin-top:18px}.panel{background:#fff;border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:0 12px 30px rgba(61,57,53,.07)}
 h1{font-size:clamp(30px,5vw,54px);margin:0 0 12px}.sub{color:var(--muted);font-size:18px;line-height:1.8}
-.switch{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{cursor:pointer;border:1px solid var(--border);background:#10243a;color:#fff;padding:11px 16px;border-radius:12px;font-weight:700}.btn.active{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#04101d}
-.progress{height:12px;background:#0a1624;border-radius:999px;overflow:hidden;margin:12px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent2),var(--accent))}
-.roadmap{display:grid;gap:12px}details{background:#0b1928;border:1px solid var(--border);border-radius:15px;padding:4px 16px}
+.switch{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{cursor:pointer;border:1px solid #bfd4d9;background:#fff;color:var(--sar-blue);padding:11px 16px;border-radius:10px;font-weight:800}.btn:hover{background:#eef7f8}.btn.active{background:var(--sar-blue);color:#fff;border-color:var(--sar-blue)}
+.progress{height:12px;background:#e8eef0;border-radius:999px;overflow:hidden;margin:12px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--sar-blue),var(--sar-cyan))}
+.roadmap{display:grid;gap:12px}details{background:#fff;border:1px solid var(--border);border-radius:14px;padding:4px 16px;transition:.2s}details[open]{border-color:#9fcbd3;box-shadow:0 8px 24px rgba(0,119,139,.08)}
 summary{cursor:pointer;list-style:none;padding:16px 0;font-weight:800;display:flex;gap:12px;align-items:center;justify-content:space-between}
-summary::-webkit-details-marker{display:none}.stephead{display:flex;gap:12px;align-items:center}.num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#17324f;color:#8bc4ff;font-weight:900}
-.tag{font-size:12px;border:1px solid #34516d;padding:5px 8px;border-radius:999px;color:#b8cae0}.body{color:#c7d4e4;line-height:1.85;padding:0 0 18px}.body a{color:#70b8ff}
-.status{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.status button{font-size:12px}.task{padding:12px;border-radius:12px;background:#0b1928;border:1px solid var(--border);margin:10px 0}.small{color:var(--muted);font-size:13px}.score{font-size:40px;font-weight:900}
-@media(max-width:800px){.hero,.grid{grid-template-columns:1fr}}
+summary::-webkit-details-marker{display:none}.stephead{display:flex;gap:12px;align-items:center}.num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#e8f4f6;color:var(--sar-blue);font-weight:900}
+.tag{font-size:12px;border:1px solid #c8d7db;padding:5px 8px;border-radius:999px;color:var(--sar-gray);background:#f8fafb}.body{color:#58656d;line-height:1.9;padding:0 0 18px}.body a{color:var(--sar-blue);font-weight:800}
+.status{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.status button{font-size:12px}.task{padding:14px;border-radius:12px;background:#eef7f8;border-right:5px solid var(--sar-blue);margin:10px 0}.small{color:var(--muted);font-size:13px}.score{font-size:42px;font-weight:900;color:var(--sar-blue)}h1,h2,h3{color:var(--sar-black)}h2{border-right:5px solid var(--sar-blue);padding-right:12px}
+@media(max-width:800px){.hero,.grid{grid-template-columns:1fr}.sar-header{align-items:flex-start;flex-direction:column}.sar-nav{display:none}}
 </style>
 </head>
 <body>
+<div class="sar-top"></div>
+<header class="sar-header">
+  <div class="sar-brand"><div class="sar-mark">SAR</div><div><strong>Immigration Command Center</strong><span>Executive Roadmap • Canada & Australia</span></div></div>
+  <nav class="sar-nav"><span class="sar-pill">ROADMAP</span><span class="sar-pill">DOCUMENTS</span><span class="sar-pill">JOBS</span><span class="sar-pill">PROGRESS</span></nav>
+</header>
 <div class="wrap">
 <section class="hero">
-<div class="panel"><div class="small">PERSONAL IMMIGRATION COMMAND CENTER</div><h1>من اليوم إلى أول راتب 🇨🇦 🇦🇺</h1>
+<div class="panel"><div class="small">SAR PROFESSIONAL THEME • PERSONAL IMMIGRATION COMMAND CENTER</div><h1>من اليوم إلى أول راتب 🇨🇦 🇦🇺</h1>
 <div class="sub">خارطة طريق تفاعلية للهجرة إلى كندا أو أستراليا. اضغط على أي خطوة لعرض المطلوب والمستندات والمخاطر والمصدر الرسمي. تقدمك يُحفظ تلقائيًا على جهازك.</div>
 <div class="switch"><button class="btn active" data-country="canada">🇨🇦 كندا</button><button class="btn" data-country="australia">🇦🇺 أستراليا</button></div></div>
 <div class="panel"><div class="small">Overall Journey</div><div class="score"><span id="score">0</span>%</div><div class="progress"><div class="bar" id="bar"></div></div><div class="small" id="nextAction"></div></div>
